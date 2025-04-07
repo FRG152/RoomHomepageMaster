@@ -1,21 +1,40 @@
+import { useGlobalContext } from "../context";
+
 interface SwiperButtonProps {
-  eventLeft: () => void;
-  eventRight: () => void;
+  styles?: string;
 }
 
-export const SwiperButton = ({ eventLeft, eventRight }: SwiperButtonProps) => {
+export const SwiperButton = ({ styles }: SwiperButtonProps) => {
+  const { swiper, setSwiper } = useGlobalContext();
+
+  const handleRight = () => {
+    if (swiper !== 3) {
+      setSwiper(swiper + 1);
+    } else {
+      setSwiper(1);
+    }
+  };
+  const handleLeft = () => {
+    if (swiper > 1) setSwiper(swiper - 1);
+    if (swiper === 1) setSwiper(3);
+  };
+
   return (
-    <div className="w-[100px] h-[100px] flex items-center absolute right-0 bottom-0 z-50">
+    <div className={`w-[150px] h-[60px] flex items-center z-50 ${styles}`}>
       <button
         type="button"
-        className="w-[50px] h-[50px] bg-black-500"
-        onClick={eventLeft}
-      ></button>
+        onClick={() => handleLeft()}
+        className="w-full h-full flex bg-black items-center justify-center cursor-pointer transition-all hover:opacity-[0.7]"
+      >
+        <img alt="icon" src={"/images/icon-angle-left.svg"} />
+      </button>
       <button
         type="button"
-        className="w-[50px] h-[50px] bg-black-500"
-        onClick={eventRight}
-      ></button>
+        onClick={() => handleRight()}
+        className="w-full h-full flex bg-black items-center justify-center cursor-pointer transition-all hover:opacity-[0.7]"
+      >
+        <img alt="icon" src={"/images/icon-angle-right.svg"} />
+      </button>
     </div>
   );
 };
